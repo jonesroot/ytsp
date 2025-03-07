@@ -8,7 +8,7 @@ from youtubesearchpython.core.playlist import PlaylistCore
 from youtubesearchpython.core.suggestions import SuggestionsCore
 from youtubesearchpython.core.transcript import TranscriptCore
 from youtubesearchpython.core.channel import ChannelCore
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import ResultMode, ChannelRequestType
 
 
 class Video:
@@ -567,7 +567,7 @@ class Playlist:
         self.__playlist.sync_create()
         self.info = copy.deepcopy(self.__playlist.result)
         self.videos = self.__playlist.result['videos']
-        self.hasMoreVideos = self.__playlist.continuationKey != None
+        self.hasMoreVideos = self.__playlist.continuationKey is not None
         self.info.pop('videos')
 
     '''Fetches more susequent videos of the playlist, and appends to the `videos` list.
@@ -577,7 +577,7 @@ class Playlist:
     def getNextVideos(self) -> None:
         self.__playlist._next()
         self.videos = self.__playlist.result['videos']
-        self.hasMoreVideos = self.__playlist.continuationKey != None
+        self.hasMoreVideos = self.__playlist.continuationKey is not None
 
     @staticmethod
     def get(playlistLink: str, mode: int = ResultMode.dict, timeout: int = None) -> Union[dict, str, None]:
