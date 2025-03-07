@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 from youtubesearchpython.core.requests import RequestCore
 from youtubesearchpython.handlers.componenthandler import ComponentHandler
 from youtubesearchpython.handlers.requesthandler import RequestHandler
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import requestPayload, ResultMode, searchKey, videoElementKey, channelElementKey, playlistElementKey, shelfElementKey, richItemKey
 
 import json
 
@@ -51,16 +51,20 @@ class SearchCore(RequestCore, RequestHandler, ComponentHandler):
         request = self.syncPostRequest()
         try:
             self.response = request.text
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\nReason: {str(e)}'
+            )
 
     async def _makeAsyncRequest(self) -> None:
         self._getRequestBody()
         request = await self.asyncPostRequest()
         try:
             self.response = request.text
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\nReason: {str(e)}'
+            )
 
     def result(self, mode: int = ResultMode.dict) -> Union[str, dict]:
         '''Returns the search result.
