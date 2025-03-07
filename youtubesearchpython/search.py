@@ -1,4 +1,4 @@
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import SearchMode
 from youtubesearchpython.core.search import SearchCore
 from youtubesearchpython.core.channelsearch import ChannelSearchCore
 
