@@ -1,5 +1,7 @@
-import httpx
 from typing import Union
+
+import httpx
+
 from youtubesearchpython.core.constants import userAgent
 
 
