@@ -13,7 +13,7 @@ allSearch = Search("NoCopyrightSounds", limit=1, language="en", region="US")
 print(allSearch.result())
 
 
-videosSearch = VideosSearch("NoCopyrightSounds", limit=10, language="en", region="US")
+videosSearch = VideosSearch("NoCopyrightSounds", limit=1, language="en", region="US")
 print(videosSearch.result(mode=ResultMode.json))
 
 
