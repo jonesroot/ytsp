@@ -177,7 +177,7 @@ class ComponentHandler:
                     element = first_content["playlistRenderer"]
                     responsetype = "playlist"
                 else:
-                    raise Exception(f"Unexpected first_content {first_content}")
+                    raise f"Unexpected first_content {first_content}"
             elif "continuationItemRenderer" in element:
                 # for endless scrolling, not needed here
                 # TODO: Implement endless scrolling
