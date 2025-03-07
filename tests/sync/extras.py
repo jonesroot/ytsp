@@ -11,9 +11,9 @@ from youtubesearchpython import (
 
 try:
     video = Video.get(
-        "https://www.youtube.com/watch?v=z0GKGpObgPY", 
+        "https://www.youtube.com/watch?v=z0GKGpObgPY",
         mode=ResultMode.json,
-        get_upload_date=True
+        get_upload_date=True,
     )
     print(video)
 except Exception as e:
