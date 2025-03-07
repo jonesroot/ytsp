@@ -10,8 +10,9 @@ class RequestCore:
         self.url = None
         self.data = None
         self.timeout = 2
-        self.proxies = None
+        # self.proxies = None
 
+        """
         http_proxy = os.environ.get("HTTP_PROXY")
         https_proxy = os.environ.get("HTTPS_PROXY")
 
@@ -22,9 +23,10 @@ class RequestCore:
             if https_proxy:
                 proxy_mounts["https://"] = httpx.HTTPTransport(proxy=https_proxy)
             self.proxies = proxy_mounts
+        """
 
     def syncPostRequest(self) -> httpx.Response:
-        with httpx.Client(mounts=self.proxies) as client:
+        with httpx.Client() as client:
             return client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -33,7 +35,7 @@ class RequestCore:
             )
 
     async def asyncPostRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(mounts=self.proxies) as client:
+        async with httpx.AsyncClient() as client:
             return await client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -42,7 +44,7 @@ class RequestCore:
             )
 
     def syncGetRequest(self) -> httpx.Response:
-        with httpx.Client(mounts=self.proxies) as client:
+        with httpx.Client() as client:
             return client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -51,7 +53,7 @@ class RequestCore:
             )
 
     async def asyncGetRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(mounts=self.proxies) as client:
+        async with httpx.AsyncClient() as client:
             return await client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
