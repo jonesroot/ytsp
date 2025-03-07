@@ -1,6 +1,9 @@
 import os
+
 import httpx
+
 from youtubesearchpython.core.constants import userAgent
+
 
 class RequestCore:
     def __init__(self):
