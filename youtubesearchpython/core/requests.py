@@ -19,7 +19,7 @@ class RequestCore:
             self.proxies = {"http://": http_proxy, "https://": https_proxy}
 
     def syncPostRequest(self) -> httpx.Response:
-        with httpx.Client(proxies=self.proxies) as client:
+        with httpx.Client(proxy=self.proxies) as client:
             return client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -28,7 +28,7 @@ class RequestCore:
             )
 
     async def asyncPostRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(proxies=self.proxies) as client:
+        async with httpx.AsyncClient(proxy=self.proxies) as client:
             return await client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -37,7 +37,7 @@ class RequestCore:
             )
 
     def syncGetRequest(self) -> httpx.Response:
-        with httpx.Client(proxies=self.proxies) as client:
+        with httpx.Client(proxy=self.proxies) as client:
             return client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -46,7 +46,7 @@ class RequestCore:
             )
 
     async def asyncGetRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(proxies=self.proxies) as client:
+        async with httpx.AsyncClient(proxy=self.proxies) as client:
             return await client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
