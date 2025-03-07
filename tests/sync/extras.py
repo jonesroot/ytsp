@@ -9,14 +9,21 @@ from youtubesearchpython import (
     Video,
 )
 
-video = Video.get(
-    "https://www.youtube.com/watch?v=z0GKGpObgPY",
-    mode=ResultMode.json,
-    get_upload_date=True,
-)
-print(video)
+try:
+    video = Video.get(
+        "https://www.youtube.com/watch?v=z0GKGpObgPY", 
+        mode=ResultMode.json,
+        get_upload_date=True
+    )
+    print(video)
+except Exception as e:
+    print(f"Error fetching video: {e}")
+
+
 videoInfo = Video.getInfo("https://youtu.be/z0GKGpObgPY", mode=ResultMode.json)
 print(videoInfo)
+
+
 videoFormats = Video.getFormats("z0GKGpObgPY")
 print(videoFormats)
 
