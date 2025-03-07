@@ -200,7 +200,7 @@ class VideoCore(RequestCore):
                     ["microformat", "playerMicroformatRenderer", "category"],
                 ),
             }
-    
+
             if component["id"]:
                 component["link"] = "https://www.youtube.com/watch?v=" + component["id"]
                 component["channel"]["link"] = (
@@ -208,18 +208,18 @@ class VideoCore(RequestCore):
                 )
             else:
                 component["link"] = None
-    
+
             component["isLiveNow"] = (
                 component["isLiveContent"]
                 and component["duration"]["secondsText"] == "0"
             )
             videoComponent.update(component)
-    
+
         if mode in ["getFormats", None]:
             videoComponent.update(
                 {"streamingData": getValue(self.responseSource, ["streamingData"])}
             )
-    
+
         if self.enableHTML:
             videoComponent["publishDate"] = getValue(
                 self.HTMLresponseSource,
@@ -229,5 +229,5 @@ class VideoCore(RequestCore):
                 self.HTMLresponseSource,
                 ["microformat", "playerMicroformatRenderer", "uploadDate"],
             )
-    
+
         self.__videoComponent = videoComponent
