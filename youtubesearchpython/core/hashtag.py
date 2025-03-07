@@ -6,7 +6,7 @@ from urllib.request import Request, urlopen
 
 import httpx
 
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import ResultMode, requestPayload, searchKey, userAgent, hashtagElementKey, contentPath, hashtagBrowseKey, hashtagVideosPath, hashtagContinuationVideosPath, richItemKey, videoElementKey, continuationKeyPath
 from youtubesearchpython.handlers.componenthandler import ComponentHandler
 
 
@@ -75,8 +75,10 @@ class HashtagCore(ComponentHandler):
         )
         try:
             response = urlopen(request, timeout=self.timeout).read().decode('utf_8')
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\nReason: {str(e)}'
+            )
         content = self._getValue(json.loads(response), contentPath)
         for item in self._getValue(content, [0, 'itemSectionRenderer', 'contents']):
             if hashtagElementKey in item.keys():
@@ -104,8 +106,10 @@ class HashtagCore(ComponentHandler):
                     timeout = self.timeout
                 )
                 response = response.json()
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\n\nReason: {str(e)}'
+            )
         content = self._getValue(response, contentPath)
         for item in self._getValue(content, [0, 'itemSectionRenderer', 'contents']):
             if hashtagElementKey in item.keys():
@@ -113,7 +117,7 @@ class HashtagCore(ComponentHandler):
                 return
 
     def _makeRequest(self) -> None:
-        if self.params == None:
+        if not self.params or self.params is None:
             return
         requestBody = copy.deepcopy(requestPayload)
         requestBody['browseId'] = hashtagBrowseKey
@@ -138,11 +142,13 @@ class HashtagCore(ComponentHandler):
         )
         try:
             self.response = urlopen(request, timeout=self.timeout).read().decode('utf_8')
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\nReason: {str(e)}'
+            )
 
     async def _asyncMakeRequest(self) -> None:
-        if self.params == None:
+        if not self.params or self.params is None:
             return
         requestBody = copy.deepcopy(requestPayload)
         requestBody['browseId'] = hashtagBrowseKey
@@ -167,11 +173,13 @@ class HashtagCore(ComponentHandler):
                     timeout = self.timeout
                 )
                 self.response = response.content
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\n\nReason: {str(e)}'
+            )
 
     def _getComponents(self) -> None:
-        if self.response == None:
+        if not self.response or self.response is None:
             return
         self.resultComponents = []
         try:
@@ -189,5 +197,5 @@ class HashtagCore(ComponentHandler):
                     if len(self.resultComponents) >= self.limit:
                         break
                 self.continuationKey = self._getValue(responseSource[-1], continuationKeyPath)
-        except:
-            raise Exception('ERROR: Could not parse YouTube response.')
+        except Exception as e:
+            raise Exception(f'ERROR: Could not parse YouTube response.\nReason: {str(e)}')
