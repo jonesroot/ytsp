@@ -51,6 +51,6 @@ from youtubesearchpython.core.constants import (
 from youtubesearchpython.core.utils import playlist_from_channel_id
 
 __title__ = "ytsp"
-__version__ = "2.0.1"
+__version__ = "2.0.2"
 __author__ = "Lucifer"
 __license__ = "MIT"
