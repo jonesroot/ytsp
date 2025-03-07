@@ -2,7 +2,6 @@ import json
 from typing import Union
 from urllib.parse import urlencode
 
-
 from youtubesearchpython.core.constants import ResultMode
 from youtubesearchpython.core.requests import RequestCore
 
