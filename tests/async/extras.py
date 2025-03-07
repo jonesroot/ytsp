@@ -1,5 +1,15 @@
-from youtubesearchpython.__future__ import *
+from youtubesearchpython.__future__ import (
+    Video,
+    Suggestions,
+    Hashtag,
+    StreamURLFetcher,
+    Comments,
+    Transcript,
+    Channel
+)
 import asyncio
+
+
 
 async def main():
     video = await Video.get('https://www.youtube.com/watch?v=z0GKGpObgPY', get_upload_date=True)
@@ -43,13 +53,12 @@ async def main():
     url = "https://www.youtube.com/watch?v=-1xu0IP35FI"
 
     transcript_en = await Transcript.get(url)
-    transcript_2 = await Transcript.get(url, transcript_en["languages"][-1]["params"]) # in my case, it'd output Spanish.
+    transcript_2 = await Transcript.get(url, transcript_en["languages"][-1]["params"])
     print(transcript_2)
 
 
     print(await Channel.get("UC_aEa8K-EOJ3D6gOs7HcyNg"))
 
-    # Retrieve playlists of a channel
     channel = Channel("UC_aEa8K-EOJ3D6gOs7HcyNg")
     await channel.init()
     print(len(channel.result["playlists"]))
