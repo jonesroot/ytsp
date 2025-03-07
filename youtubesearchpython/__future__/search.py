@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional
 
 from youtubesearchpython.core.channelsearch import ChannelSearchCore
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import SearchMode
 from youtubesearchpython.core.search import SearchCore
 
 
