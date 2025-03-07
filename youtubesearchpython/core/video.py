@@ -3,7 +3,7 @@ import json
 from typing import Union, List
 from urllib.parse import urlencode
 
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import searchKey, ResultMode
 from youtubesearchpython.core.requests import RequestCore
 from youtubesearchpython.core.componenthandler import getValue, getVideoId
 
@@ -122,7 +122,9 @@ class VideoCore(RequestCore):
         try:
             self.responseSource = json.loads(self.response)
         except Exception as e:
-            raise Exception('ERROR: Could not parse YouTube response.')
+            raise Exception(
+                f'ERROR: Could not parse YouTube response.\nReason: {str(e)}'
+            )
 
     def __result(self, mode: int) -> Union[dict, str]:
         if mode == ResultMode.dict:
@@ -135,7 +137,7 @@ class VideoCore(RequestCore):
         if mode in ['getInfo', None]:
             try:
                 responseSource = self.responseSource
-            except:
+            except Exception:
                 responseSource = None
             if self.enableHTML:
                 responseSource = self.HTMLresponseSource
