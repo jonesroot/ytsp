@@ -90,8 +90,10 @@ class SuggestionsCore(RequestCore):
     def __parseSource(self) -> None:
         try:
             self.responseSource = json.loads(self.response[self.response.index('(') + 1: self.response.index(')')])
-        except:
-            raise Exception('ERROR: Could not parse YouTube response.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not parse YouTube response.\nReason: {str(e)}'
+            )
 
     def __makeRequest(self) -> None:
         request = self.syncGetRequest()
