@@ -1,5 +1,14 @@
-from youtubesearchpython.__future__ import *
+from youtubesearchpython.__future__ import (
+    Search,
+    VideosSearch,
+    ChannelsSearch,
+    PlaylistsSearch,
+    CustomSearch,
+    ChannelSearch,
+    VideoSortOrder
+)
 import asyncio
+
 
 async def main():
     search = Search('NoCopyrightSounds', limit = 1, language = 'en', region = 'US')
@@ -34,16 +43,6 @@ async def main():
     channel = ChannelSearch('The Beatles - Topic', 'UC2XdaAVUannpujzv32jcouQ')
     result = await channel.next()
     print(result)
-
-    """
-    channel = ChannelPlaylistSearch('PewDiePie', 'UC-lHJZR3Gqxm24_Vd_AJ5Yw')
-    result = await channel.next()
-    print(result)
-
-    channel = ChannelPlaylistSearch('The Beatles - Topic', 'UC2XdaAVUannpujzv32jcouQ')
-    result = await channel.next()
-    print(result)
-    """
 
 
     search = VideosSearch('NoCopyrightSounds')
