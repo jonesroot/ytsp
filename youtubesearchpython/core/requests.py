@@ -30,7 +30,7 @@ class RequestCore:
     def syncGetRequest(self) -> httpx.Response | None:
         if not self.url:
             raise ValueError("URL must be set before making a request.")
-        cookies = {'CONSENT': 'YES+1'}
+        cookies = {"CONSENT": "YES+1"}
         try:
             response = self.client.get(
                 self.url,
@@ -65,7 +65,7 @@ class RequestCore:
     async def asyncGetRequest(self) -> httpx.Response | None:
         if not self.url:
             raise ValueError("URL must be set before making a request.")
-        cookies = {'CONSENT': 'YES+1'}
+        cookies = {"CONSENT": "YES+1"}
         try:
             response = await self.async_client.get(
                 self.url,
