@@ -36,6 +36,6 @@ from youtubesearchpython.core.constants import (
 
 
 __title__        = 'ytsp'
-__version__      = '2.0.0'
+__version__      = '2.0.1'
 __author__       = 'Lucifer'
 __license__      = 'MIT'
