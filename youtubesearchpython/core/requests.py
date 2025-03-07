@@ -1,9 +1,6 @@
 import os
-
 import httpx
-
 from youtubesearchpython.core.constants import userAgent
-
 
 class RequestCore:
     def __init__(self):
@@ -16,10 +13,15 @@ class RequestCore:
         https_proxy = os.environ.get("HTTPS_PROXY")
 
         if http_proxy or https_proxy:
-            self.proxies = {"http://": http_proxy, "https://": https_proxy}
+            proxy_mounts = {}
+            if http_proxy:
+                proxy_mounts["http://"] = httpx.HTTPTransport(proxy=http_proxy)
+            if https_proxy:
+                proxy_mounts["https://"] = httpx.HTTPTransport(proxy=https_proxy)
+            self.proxies = proxy_mounts
 
     def syncPostRequest(self) -> httpx.Response:
-        with httpx.Client(proxy=self.proxies) as client:
+        with httpx.Client(mounts=self.proxies) as client:
             return client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -28,7 +30,7 @@ class RequestCore:
             )
 
     async def asyncPostRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(proxy=self.proxies) as client:
+        async with httpx.AsyncClient(mounts=self.proxies) as client:
             return await client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -37,7 +39,7 @@ class RequestCore:
             )
 
     def syncGetRequest(self) -> httpx.Response:
-        with httpx.Client(proxy=self.proxies) as client:
+        with httpx.Client(mounts=self.proxies) as client:
             return client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -46,7 +48,7 @@ class RequestCore:
             )
 
     async def asyncGetRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(proxy=self.proxies) as client:
+        async with httpx.AsyncClient(mounts=self.proxies) as client:
             return await client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
