@@ -1,60 +1,81 @@
 import httpx
-
-from youtubesearchpython.core.constants import userAgent
+from py_yt.core.constants import userAgent
 
 
 class RequestCore:
-    def __init__(self):
-        self.url = None
-        self.data = None
-        self.timeout = 2
-        # self.proxies = None
+    def __init__(self, timeout: float = 3.0):
+        self.url: str | None = None
+        self.data: dict | None = None
+        self.timeout: float = timeout
+        self.client = httpx.Client(timeout=self.timeout)
+        self.async_client = httpx.AsyncClient(timeout=self.timeout)
 
-        """
-        http_proxy = os.environ.get("HTTP_PROXY")
-        https_proxy = os.environ.get("HTTPS_PROXY")
-
-        if http_proxy or https_proxy:
-            proxy_mounts = {}
-            if http_proxy:
-                proxy_mounts["http://"] = httpx.HTTPTransport(proxy=http_proxy)
-            if https_proxy:
-                proxy_mounts["https://"] = httpx.HTTPTransport(proxy=https_proxy)
-            self.proxies = proxy_mounts
-        """
-
-    def syncPostRequest(self) -> httpx.Response:
-        with httpx.Client() as client:
-            return client.post(
+    def syncPostRequest(self) -> httpx.Response | None:
+        if not self.url:
+            raise ValueError("URL must be set before making a request.")
+        try:
+            response = self.client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
                 json=self.data,
-                timeout=self.timeout,
             )
+            response.raise_for_status()
+            return response
+        except httpx.HTTPStatusError as e:
+            print(f"HTTP error: {e.response.status_code} - {e.response.text}")
+        except httpx.RequestError as e:
+            print(f"Request error: {e}")
+        return None
 
-    async def asyncPostRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient() as client:
-            return await client.post(
+    def syncGetRequest(self) -> httpx.Response | None:
+        if not self.url:
+            raise ValueError("URL must be set before making a request.")
+        cookies = {'CONSENT': 'YES+1'}
+        try:
+            response = self.client.get(
+                self.url,
+                headers={"User-Agent": userAgent},
+                cookies=cookies,
+            )
+            response.raise_for_status()
+            return response
+        except httpx.HTTPStatusError as e:
+            print(f"HTTP error: {e.response.status_code} - {e.response.text}")
+        except httpx.RequestError as e:
+            print(f"Request error: {e}")
+        return None
+
+    async def asyncPostRequest(self) -> httpx.Response | None:
+        if not self.url:
+            raise ValueError("URL must be set before making a request.")
+        try:
+            response = await self.async_client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
                 json=self.data,
-                timeout=self.timeout,
             )
+            response.raise_for_status()
+            return response
+        except httpx.HTTPStatusError as e:
+            print(f"HTTP error: {e.response.status_code} - {e.response.text}")
+        except httpx.RequestError as e:
+            print(f"Request error: {e}")
+        return None
 
-    def syncGetRequest(self) -> httpx.Response:
-        with httpx.Client() as client:
-            return client.get(
+    async def asyncGetRequest(self) -> httpx.Response | None:
+        if not self.url:
+            raise ValueError("URL must be set before making a request.")
+        cookies = {'CONSENT': 'YES+1'}
+        try:
+            response = await self.async_client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
-                timeout=self.timeout,
-                cookies={"CONSENT": "YES+1"},
+                cookies=cookies,
             )
-
-    async def asyncGetRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient() as client:
-            return await client.get(
-                self.url,
-                headers={"User-Agent": userAgent},
-                timeout=self.timeout,
-                cookies={"CONSENT": "YES+1"},
-            )
+            response.raise_for_status()
+            return response
+        except httpx.HTTPStatusError as e:
+            print(f"HTTP error: {e.response.status_code} - {e.response.text}")
+        except httpx.RequestError as e:
+            print(f"Request error: {e}")
+        return None
