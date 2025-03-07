@@ -1,4 +1,4 @@
-from youtubesearchpython.__future__ import *
+from youtubesearchpython.__future__ import Playlist
 import asyncio
 
 async def main():
