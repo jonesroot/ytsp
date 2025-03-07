@@ -620,12 +620,12 @@ class Playlist:
             await self.__playlist._async_next()
             self.info = copy.deepcopy(self.__playlist.playlistComponent)
             self.videos = self.__playlist.playlistComponent['videos']
-            self.hasMoreVideos = self.__playlist.continuationKey != None
+            self.hasMoreVideos = self.__playlist.continuationKey is not None
             self.info.pop('videos')
         else:
             await self.__playlist._async_next()
             self.videos = self.__playlist.playlistComponent['videos']
-            self.hasMoreVideos = self.__playlist.continuationKey != None
+            self.hasMoreVideos = self.__playlist.continuationKey is not None
 
     @staticmethod
     async def get(playlistLink: str) -> Union[dict, str, None]:
