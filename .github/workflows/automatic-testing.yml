@@ -54,3 +54,4 @@ jobs:
       run: python tests/sync/search.py
     - name: Async
       run: python tests/async/search.py
+
