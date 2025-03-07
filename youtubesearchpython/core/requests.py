@@ -1,5 +1,5 @@
 import httpx
-from py_yt.core.constants import userAgent
+from youtubesearchpython.core.constants import userAgent
 
 
 class RequestCore:
