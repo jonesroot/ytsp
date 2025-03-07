@@ -17,7 +17,7 @@ try:
     from yt_dlp.utils import url_or_none, try_get, update_url_query, ExtractorError
 
     isYtDLPinstalled = True
-except:
+except Exception:
     pass
 
 
@@ -133,7 +133,7 @@ class StreamURLFetcherCore(RequestCore):
                         try:
                             fmt_url = update_url_query(fmt_url, {
                                 'n': self.ytie._decrypt_nsig(query['n'][0], self.video_id, self._js_url)})
-                        except ExtractorError as e:
+                        except ExtractorError:
                             throttled = True
                     yt_format["url"] = fmt_url
                     yt_format["throttled"] = throttled
