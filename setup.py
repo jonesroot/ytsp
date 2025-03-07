@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ytsp",
-    version="2.0.0",
+    version="2.0.1",
     author="Lucifer",
     license='MIT',
     author_email="",
@@ -17,7 +17,7 @@ setuptools.setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'httpx>=0.27.2'
+        'httpx[http2]>=0.27.2'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
