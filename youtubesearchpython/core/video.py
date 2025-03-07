@@ -93,7 +93,7 @@ class VideoCore(RequestCore):
         if response.status_code == 200:
             self.post_request_processing()
         else:
-            raise Exception("ERROR: Invalid status code.")
+            raise f"ERROR status code: {response.status_code}"
 
     def sync_create(self):
         self.prepare_innertube_request()
@@ -102,7 +102,7 @@ class VideoCore(RequestCore):
         if response.status_code == 200:
             self.post_request_processing()
         else:
-            raise Exception("ERROR: Invalid status code.")
+            raise f"ERROR status code: {response.status_code}"
 
     def prepare_html_request(self):
         self.url = (
