@@ -3,7 +3,7 @@ from urllib.parse import urlencode
 import json
 import copy
 from youtubesearchpython.handlers.componenthandler import ComponentHandler
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import requestPayload, searchKey, userAgent, contentPath, itemSectionKey, continuationKeyPath, continuationItemKey, continuationContentPath, fallbackContentPath
 
 
 class RequestHandler(ComponentHandler):
@@ -33,8 +33,10 @@ class RequestHandler(ComponentHandler):
         )
         try:
             self.response = urlopen(request, timeout=self.timeout).read().decode('utf_8')
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\nReason: {str(e)}'
+            )
     
     def _parseSource(self) -> None:
         try:
@@ -51,5 +53,7 @@ class RequestHandler(ComponentHandler):
             else:
                 self.responseSource = self._getValue(json.loads(self.response), fallbackContentPath)
                 self.continuationKey = self._getValue(self.responseSource[-1], continuationKeyPath)
-        except:
-            raise Exception('ERROR: Could not parse YouTube response.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not parse YouTube response.\nReason: {str(e)}'
+            )
