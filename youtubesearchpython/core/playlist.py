@@ -7,7 +7,7 @@ from typing import Iterable, Mapping, Tuple, TypeVar, Union, List
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import ResultMode, searchKey, requestPayload, playlistVideoListRenderer, playlistVideoKey, continuationKeyPath, playlistPrimaryInfoKey, playlistSecondaryInfoKey, continuationItemKey
 from youtubesearchpython.core.requests import RequestCore
 
 
@@ -121,17 +121,20 @@ class PlaylistCore(RequestCore):
         try:
             self.response = response.text
             return response.status_code
-        except:
-            raise Exception('ERROR: Could not make request.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not make request.\nReason: {str(e)}'
+            )
 
     def __parseSource(self) -> None:
         try:
             self.responseSource = json.loads(self.response)
-        except:
-            raise Exception('ERROR: Could not parse YouTube response.')
+        except Exception as e:
+            raise Exception(
+                f'ERROR: Could not parse YouTube response.\nReason: {str(e)}'
+            )
 
     def __getComponents(self) -> None:
-        #print(self.responseSource)
         sidebar = self.responseSource["sidebar"]["playlistSidebarRenderer"]["items"]
         inforenderer = sidebar[0]["playlistSidebarPrimaryInfoRenderer"]
         channel_details_available = len(sidebar) != 1
@@ -159,7 +162,7 @@ class PlaylistCore(RequestCore):
                     "isPlayable": self.__getValue(video, ["isPlayable"]),
                 }
                 videos.append(j)
-            except:
+            except Exception:
                 pass
 
         playlistElement = {
@@ -197,7 +200,6 @@ class PlaylistCore(RequestCore):
                                                ['onResponseReceivedActions', 0, 'appendContinuationItemsAction',
                                                 'continuationItems'])
         if continuationElements is None:
-            # YouTube Backend issue - See https://github.com/alexmercerind/youtube-search-python/issues/157
             return
         for videoElement in continuationElements:
             if playlistVideoKey in videoElement.keys():
