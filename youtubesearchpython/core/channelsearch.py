@@ -5,8 +5,7 @@ from urllib.parse import urlencode
 
 from youtubesearchpython.core.requests import RequestCore
 from youtubesearchpython.handlers.componenthandler import ComponentHandler
-from youtubesearchpython.core.constants import *
-
+from youtubesearchpython.core.constants import ResultMode, requestPayload, searchKey
 
 class ChannelSearchCore(RequestCore, ComponentHandler):
     response = None
@@ -45,7 +44,7 @@ class ChannelSearchCore(RequestCore, ComponentHandler):
                     self.response = tab_renderer["content"]["sectionListRenderer"]["contents"]
                 else:
                     self.response = []
-        except:
+        except Exception:
             raise Exception('ERROR: Could not parse YouTube response.')
 
     def _getRequestBody(self):
@@ -70,7 +69,7 @@ class ChannelSearchCore(RequestCore, ComponentHandler):
         request = self.syncPostRequest()
         try:
             self.response = request.json()
-        except:
+        except Exception:
             raise Exception('ERROR: Could not make request.')
 
     async def _asyncRequest(self) -> None:
@@ -80,7 +79,7 @@ class ChannelSearchCore(RequestCore, ComponentHandler):
         request = await self.asyncPostRequest()
         try:
             self.response = request.json()
-        except:
+        except Exception:
             raise Exception('ERROR: Could not make request.')
 
     def result(self, mode: int = ResultMode.dict) -> Union[str, dict]:
