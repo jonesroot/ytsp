@@ -1,5 +1,5 @@
 import httpx
-
+from typing import Union
 from youtubesearchpython.core.constants import userAgent
 
 
@@ -11,7 +11,7 @@ class RequestCore:
         self.client = httpx.Client(timeout=self.timeout)
         self.async_client = httpx.AsyncClient(timeout=self.timeout)
 
-    def syncPostRequest(self) -> httpx.Response | None:
+    def syncPostRequest(self) -> Union[httpx.Response, None]:
         if not self.url:
             raise ValueError("URL must be set before making a request.")
         try:
@@ -28,7 +28,7 @@ class RequestCore:
             print(f"Request error: {e}")
         return None
 
-    def syncGetRequest(self) -> httpx.Response | None:
+    def syncGetRequest(self) -> Union[httpx.Response, None]:
         if not self.url:
             raise ValueError("URL must be set before making a request.")
         cookies = {"CONSENT": "YES+1"}
@@ -46,7 +46,7 @@ class RequestCore:
             print(f"Request error: {e}")
         return None
 
-    async def asyncPostRequest(self) -> httpx.Response | None:
+    async def asyncPostRequest(self) -> Union[httpx.Response, None]:
         if not self.url:
             raise ValueError("URL must be set before making a request.")
         try:
@@ -63,7 +63,7 @@ class RequestCore:
             print(f"Request error: {e}")
         return None
 
-    async def asyncGetRequest(self) -> httpx.Response | None:
+    async def asyncGetRequest(self) -> Union[httpx.Response, None]:
         if not self.url:
             raise ValueError("URL must be set before making a request.")
         cookies = {"CONSENT": "YES+1"}
