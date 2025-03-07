@@ -102,7 +102,7 @@ class VideoCore(RequestCore):
         if response.status_code == 200:
             self.post_request_processing()
         else:
-            raise f"ERROR status code: {response.status_code}"
+            raise Exception(f"ERROR status code: {response.status_code}")
 
     def prepare_html_request(self):
         self.url = (
