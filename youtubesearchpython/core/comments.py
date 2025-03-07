@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from youtubesearchpython.core.componenthandler import getVideoId, getValue
-from youtubesearchpython.core.constants import *
+from youtubesearchpython.core.constants import searchKey, ResultMode
 from youtubesearchpython.core.requests import RequestCore
 
 K = TypeVar("K")
@@ -144,7 +144,7 @@ class CommentsCore(RequestCore):
                     "replyCount": self.__getValue(comment, ["replyCount"]),
                 }
                 comments.append(j)
-            except:
+            except Exception:
                 pass
 
         self.commentsComponent["result"].extend(comments)
